@@ -1,108 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mahaataab</title>
-  <style>
-    body {
-      background-color: #fff;
-      color: #000;
-      font-family: "Courier New", monospace;
-      margin: 0;
-      padding: 20px;
-      line-height: 1.6;
-    }
-    header {
-      border-bottom: 2px solid #000;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    h1 {
-      margin: 0;
-    }
-    section {
-      margin-bottom: 30px;
-    }
-    .projects {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-    .project {
-      border: 1px solid #000;
-      padding: 10px;
-      background-color: #f9f9f9;
-    }
-    a {
-      color: #000;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .socials {
-      border-top: 2px solid #000;
-      padding-top: 10px;
-    }
-    /* LED bulb animation */
-    .led {
-      width: 25px;
-      height: 25px;
-    }
-    .led circle {
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 50%, 100% { fill: red; }
-      25%, 75% { fill: #fff; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mahaataab.io</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #f2f1ec;
+    --paper-dim: #e7e6df;
+    --ink: #141414;
+    --ink-soft: #4a4a46;
+    --line: #141414;
+    --rec: #b0231c;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ -webkit-text-size-adjust: 100%; }
+
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    line-height: 1.65;
+    position: relative;
+  }
+
+  /* e-ink dither/grain overlay */
+  body::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    z-index: 2;
+  }
+
+  .wrap{
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  header{
+    display:flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--line);
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .rec{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--rec);
+    border: 1px solid var(--rec);
+    padding: 3px 8px 3px 6px;
+    flex-shrink: 0;
+  }
+
+  .led{
+    width: 8px;
+    height: 8px;
+    background: var(--rec);
+    border-radius: 50%;
+    animation: blink 1.4s steps(1) infinite;
+    box-shadow: 0 0 4px var(--rec);
+  }
+
+  @keyframes blink{
+    0%, 45% { opacity: 1; }
+    46%, 100% { opacity: 0.12; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .led{ animation: none; opacity: 1; }
+  }
+
+  h1.site-title{
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .tagline{
+    margin: 10px 0 0;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .prompt{
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    margin: 0 0 16px;
+    display:flex;
+    align-items:center;
+    gap: 8px;
+  }
+  .prompt::before{ content: ">"; color: var(--rec); }
+
+  section{ margin-bottom: 44px; }
+
+  .about p{
+    font-size: 14.5px;
+    max-width: 60ch;
+  }
+
+  .stats{
+    display:flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--ink-soft);
+    font-size: 12.5px;
+  }
+  .stats div span{
+    display:block;
+    color: var(--ink-soft);
+    font-size: 10.5px;
+  }
+
+  .log{
+    border: 2px solid var(--line);
+    margin-bottom: 14px;
+  }
+
+  .log-row{
+    display:flex;
+    gap: 14px;
+    padding: 12px;
+    text-decoration: none;
+    color: var(--ink);
+    align-items: center;
+  }
+
+  .log-row:hover .log-title{ text-decoration: underline; }
+
+  .thumb-box{
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+    border: 2px solid var(--line);
+    overflow: hidden;
+    background: var(--paper-dim);
+    position: relative;
+  }
+  .thumb-box img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.15);
+    display: block;
+  }
+
+  .log-body{ flex: 1; min-width: 0; }
+
+  .log-id{
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+  }
+
+  .log-title{
+    font-size: 14.5px;
+    font-weight: 600;
+    margin: 3px 0 5px;
+  }
+
+  .log-cta{
+    font-size: 11.5px;
+    color: var(--rec);
+  }
+  .log-cta::after{ content: " ->"; }
+
+  .links{
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .link-box{
+    border: 2px solid var(--line);
+    padding: 14px 18px;
+    text-decoration: none;
+    color: var(--ink);
+    flex: 1;
+    min-width: 200px;
+  }
+  .link-box:hover{ background: var(--paper-dim); }
+
+  .link-box .k{
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+    display:block;
+    margin-bottom: 4px;
+  }
+  .link-box .v{
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  footer{
+    border-top: 3px solid var(--line);
+    padding-top: 18px;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cursor{
+    display:inline-block;
+    width: 7px;
+    height: 12px;
+    background: var(--ink);
+    margin-left: 2px;
+    animation: blink 1s steps(1) infinite;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 480px){
+    h1.site-title{ font-size: 16px; }
+    .log-row{ padding: 10px; gap: 10px; }
+    .thumb-box{ width: 76px; height: 76px; }
+    .stats{ gap: 16px; }
+  }
+</style>
 </head>
 <body>
+<div class="wrap">
+
   <header>
-    <h1>mahaataab</h1>
-    <!-- LED bulb SVG -->
-    <svg class="led" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-      <!-- Bulb base -->
-      <rect x="28" y="40" width="8" height="12" fill="black"/>
-      <!-- Bulb dome -->
-      <circle cx="32" cy="32" r="12" fill="red" />
-    </svg>
-    <p>DIY Tech & YouTube Projects</p>
+    <span class="rec"><span class="led"></span>LIVE</span>
+    <h1 class="site-title">mahaataab.io</h1>
   </header>
 
-  <section id="about">
-    <h2>About</h2>
+  <section class="about">
+    <p class="prompt">about</p>
     <p>
-     Hi, I’m Mahatab, a maker and content creator (@mahaataab). 
-     I make DIY tech and innovative gadgets, and post tutorials 
-     about them on social media. Check out my work below.
+      I build small, innovative electronic projects and share the tutorials. ESP32, Arduino
+      and Raspberry Pi projects made for people who want to try embedded
+      hardware without spending a lot &mdash; most builds come in under
+      &#8377;500-1000. Content lives on YouTube and Instagram as
+      <strong>@mahaataab</strong>, aimed at hobbyists and students in India
+      getting started with DIY tech.
     </p>
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="project"><a href="https://youtube.com/shorts/0JxQWjbKbCo?si=eb1Th0jGEGw7C8hQ" target="_blank">🎵 DIY MP3 Player</a></div>
-      <div class="project"><a href="https://youtube.com/shorts/O5zYROKUVA4?si=yc_KNPDdK-1-124q" target="_blank">🎛 DIY StreamDeck</a></div>
-      <div class="project"><a href="https://youtube.com/shorts/dKfVc7BNLOI?si=-BkC9IAr6c-Dvpp9" target="_blank">🎮 DIY Gamepad Controller</a></div>
-      <div class="project"><a href="https://youtube.com/shorts/HtZiAh-byoc?si=Xl7goEh0yUAvwGBc" target="_blank">😎 DIY Dasai Mochi OLED Face</a></div>
-      <div class="project"><a href="https://youtube.com/shorts/rRxzqgn9LY4?si=modH8PeRmlcT3Hyj" target="_blank">🦖 DIY Dino Game (Arduino)</a></div>
-      <div class="project"><a href="https://youtube.com/shorts/ckktIRg8T8k?si=x6m1zJofQhvg4dW6" target="_blank">🕹 DIY Joystick Mouse</a></div>
+    <div class="stats">
+      <div>ESP32 / ARDUINO / RASPBERRY PI<span>hardware</span></div>
+      <div>&#8377;500-1000<span>typical build cost</span></div>
+      <div>SHORTS + TUTORIALS<span>format</span></div>
     </div>
   </section>
 
-  <section class="socials">
-    <h2>Connect</h2>
-    <p>
-      <a href="https://youtube.com/@mahaataab" target="_blank">📺 YouTube</a> | 
-      <a href="https://instagram.com/mahaataab" target="_blank">📸 Instagram</a> |
-      <a href="https://drive.google.com/drive/folders/1Nph0igCuCqwdEaz5RiIW9mip813_U29s?usp=drive_link">📂 Project Materials</a>
-    </p>
+  <section class="projects">
+    <p class="prompt">projects</p>
+
+    <div class="log">
+      <a class="log-row" href="https://youtube.com/shorts/0JxQWjbKbCo?si=eb1Th0jGEGw7C8hQ" target="_blank" rel="noopener">
+        <div class="thumb-box"><img src="https://i9.ytimg.com/vi/0JxQWjbKbCo/sddefault.jpg?v=6a8d5612&sqp=CJj79dQG-oaymwEoCIAFEOAD8quKqQMcGADwAQH4AbYIgAKAD4oCDAgAEAEYZSBQKEwwDw==&rs=AOn4CLAMT15Dcv8eQwjf2qXSOrleP41uaw" loading="lazy"></div>
+        <div class="log-body">
+          <div class="log-id">LOG_01</div>
+          <div class="log-title">DIY MP3 Player</div>
+          <div class="log-cta">watch</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="log">
+      <a class="log-row" href="https://youtube.com/shorts/O5zYROKUVA4?si=yc_KNPDdK-1-124q" target="_blank" rel="noopener">
+        <div class="thumb-box"><img src="https://i9.ytimg.com/vi/O5zYROKUVA4/sddefault.jpg?v=6a1ffae6&sqp=CJj79dQG-oaymwEoCIAFEOAD8quKqQMcGADwAQH4AbYIgAKAD4oCDAgAEAEYVSBcKGUwDw==&rs=AOn4CLCmle3YpkFRZW8P7iJhnB-RsqswTg"DIY StreamDeck thumbnail" loading="lazy"></div>
+        <div class="log-body">
+          <div class="log-id">LOG_02</div>
+          <div class="log-title">DIY StreamDeck</div>
+          <div class="log-cta">watch</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="log">
+      <a class="log-row" href="https://youtube.com/shorts/dKfVc7BNLOI?si=-BkC9IAr6c-Dvpp9" target="_blank" rel="noopener">
+        <div class="thumb-box"><img src="https://i9.ytimg.com/vi/dKfVc7BNLOI/sddefault.jpg?v=694a7371&sqp=CMT99dQG-oaymwEoCIAFEOAD8quKqQMcGADwAQH4Ac4FgAKACooCDAgAEAEYSSBXKGUwDw==&rs=AOn4CLDMclfGBjun6ddcu-fdy8DBPCwEJg" alt="DIY Gamepad Controller thumbnail" loading="lazy"></div>
+        <div class="log-body">
+          <div class="log-id">LOG_03</div>
+          <div class="log-title">DIY Gamepad Controller</div>
+          <div class="log-cta">watch</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="log">
+      <a class="log-row" href="https://youtube.com/shorts/HtZiAh-byoc?si=Xl7goEh0yUAvwGBc" target="_blank" rel="noopener">
+        <div class="thumb-box"><img src="https://i9.ytimg.com/vi/HtZiAh-byoc/sddefault.jpg?v=694a7437&sqp=CMT99dQG-oaymwEoCIAFEOAD8quKqQMcGADwAQH4AbYIgAKAD4oCDAgAEAEYTyBlKE8wDw==&rs=AOn4CLA9EZ5_xntpPxJEjUida6lYYI6EeA" alt="DIY Dasai Mochi OLED face thumbnail" loading="lazy"></div>
+        <div class="log-body">
+          <div class="log-id">LOG_04</div>
+          <div class="log-title">DIY Dasai Mochi OLED Face</div>
+          <div class="log-cta">watch</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="log">
+      <a class="log-row" href="https://youtube.com/shorts/rRxzqgn9LY4?si=modH8PeRmlcT3Hyj" target="_blank" rel="noopener">
+        <div class="thumb-box"><img src="https://i9.ytimg.com/vi/rRxzqgn9LY4/sddefault.jpg?v=694b072e&sqp=CMT99dQG-oaymwEoCIAFEOAD8quKqQMcGADwAQH4AbYIgAKAD4oCDAgAEAEYNyBQKHIwDw==&rs=AOn4CLBqIIObRSzNMUO-4NtNwXv_iF6PEQ" alt="DIY Dino Game with Arduino thumbnail" loading="lazy"></div>
+        <div class="log-body">
+          <div class="log-id">LOG_05</div>
+          <div class="log-title">DIY Dino Game with Arduino</div>
+          <div class="log-cta">watch</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="log">
+      <a class="log-row" href="https://youtube.com/shorts/ckktIRg8T8k?si=x6m1zJofQhvg4dW6" target="_blank" rel="noopener">
+        <div class="thumb-box"><img src="https://i9.ytimg.com/vi/ckktIRg8T8k/sddefault.jpg?v=694b1979&sqp=CMT99dQG-oaymwEoCIAFEOAD8quKqQMcGADwAQH4AbYIgAKAD4oCDAgAEAEYEyA8KH8wDw==&rs=AOn4CLBJ4_8l-3OHslY4Pe4nTkiP23b6Tg"DIY Joystick Mouse thumbnail" loading="lazy"></div>
+        <div class="log-body">
+          <div class="log-id">LOG_06</div>
+          <div class="log-title">DIY Joystick Mouse</div>
+          <div class="log-cta">watch</div>
+        </div>
+      </a>
+    </div>
   </section>
+
+  <section class="connect">
+    <p class="prompt">connect</p>
+    <div class="links">
+      <a class="link-box" href="https://www.youtube.com/@mahaataab" target="_blank" rel="noopener">
+        <span class="k">youtube</span>
+        <span class="v">@mahaataab</span>
+      </a>
+      <a class="link-box" href="https://www.instagram.com/mahaataab" target="_blank" rel="noopener">
+        <span class="k">instagram</span>
+        <span class="v">@mahaataab</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>mahaataab.io</span>
+    <span>DIY electronics &middot; <span class="cursor"></span></span>
+  </footer>
+
+</div>
 </body>
 </html>
