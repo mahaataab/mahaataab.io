@@ -16,11 +16,87 @@
     --line: #141414;
     --rec: #b0231c;
   }
-
+ 
+  /* ===== DARK / NEON MODE ===== */
+  :root[data-theme="dark"]{
+    --paper: #000000;
+    --paper-dim: #0a0f0a;
+    --ink: #39ff14;       /* neon green */
+    --ink-soft: #00f0ff;  /* neon cyan */
+    --line: #39ff14;
+    --rec: #ff2bd6;       /* neon magenta */
+  }
+  :root[data-theme="dark"] body{
+    text-shadow: 0 0 6px rgba(57,255,20,0.45);
+  }
+  :root[data-theme="dark"] body::before{
+    background-image: radial-gradient(rgba(57,255,20,0.06) 1px, transparent 1px);
+    mix-blend-mode: normal;
+  }
+  :root[data-theme="dark"] h1.site-title{
+    text-shadow: 0 0 4px #39ff14, 0 0 12px #39ff14, 0 0 24px rgba(57,255,20,0.6);
+  }
+  :root[data-theme="dark"] .prompt{
+    text-shadow: 0 0 6px var(--ink);
+  }
+  :root[data-theme="dark"] .tagline,
+  :root[data-theme="dark"] .stats,
+  :root[data-theme="dark"] .log-id,
+  :root[data-theme="dark"] .link-box .k,
+  :root[data-theme="dark"] footer{
+    text-shadow: 0 0 6px rgba(0,240,255,0.6);
+  }
+  :root[data-theme="dark"] .rec,
+  :root[data-theme="dark"] .log-cta,
+  :root[data-theme="dark"] .led{
+    text-shadow: 0 0 6px var(--rec);
+  }
+  :root[data-theme="dark"] .rec{ box-shadow: 0 0 8px rgba(255,43,214,0.5), inset 0 0 6px rgba(255,43,214,0.3); }
+  :root[data-theme="dark"] .led{ box-shadow: 0 0 8px var(--rec), 0 0 14px var(--rec); }
+  :root[data-theme="dark"] .log,
+  :root[data-theme="dark"] .link-box,
+  :root[data-theme="dark"] .thumb-box{
+    box-shadow: 0 0 8px rgba(57,255,20,0.45), inset 0 0 8px rgba(57,255,20,0.15);
+  }
+  :root[data-theme="dark"] .link-box:hover{
+    background: var(--paper-dim);
+    box-shadow: 0 0 14px rgba(57,255,20,0.8), inset 0 0 10px rgba(57,255,20,0.25);
+  }
+  :root[data-theme="dark"] .about p span[style]{
+    color: #ff2bd6 !important;
+    text-shadow: 0 0 8px #ff2bd6;
+  }
+  :root[data-theme="dark"] .cursor{
+    box-shadow: 0 0 8px var(--ink);
+  }
+ 
+  /* theme toggle button */
+  .theme-toggle{
+    margin-left: auto;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    background: var(--paper);
+    color: var(--ink);
+    border: 2px solid var(--line);
+    padding: 8px 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover{ background: var(--ink); color: var(--paper); text-shadow: none; }
+  .theme-toggle:focus-visible{ outline: 2px dashed var(--rec); outline-offset: 3px; }
+  :root[data-theme="dark"] .theme-toggle{
+    box-shadow: 0 0 8px rgba(57,255,20,0.7), inset 0 0 6px rgba(57,255,20,0.25);
+    text-shadow: 0 0 6px var(--ink);
+  }
+  :root[data-theme="dark"] .theme-toggle:hover{
+    box-shadow: 0 0 16px rgba(57,255,20,0.95);
+  }
+ 
   *{ box-sizing: border-box; }
-
+ 
   html{ -webkit-text-size-adjust: 100%; }
-
+ 
   body{
     margin:0;
     background: var(--paper);
@@ -29,7 +105,7 @@
     line-height: 1.65;
     position: relative;
   }
-
+ 
   /* e-ink dither/grain overlay */
   body::before{
     content:"";
@@ -42,7 +118,7 @@
     mix-blend-mode: multiply;
     z-index: 2;
   }
-
+ 
   .wrap{
     max-width: 700px;
     margin: 0 auto;
@@ -50,7 +126,7 @@
     position: relative;
     z-index: 1;
   }
-
+ 
   header{
     display:flex;
     align-items: center;
@@ -60,7 +136,7 @@
     margin-bottom: 28px;
     flex-wrap: wrap;
   }
-
+ 
   .rec{
     display:flex;
     align-items:center;
@@ -72,7 +148,7 @@
     padding: 3px 8px 3px 6px;
     flex-shrink: 0;
   }
-
+ 
   .led{
     width: 8px;
     height: 8px;
@@ -81,29 +157,29 @@
     animation: blink 1.4s steps(1) infinite;
     box-shadow: 0 0 4px var(--rec);
   }
-
+ 
   @keyframes blink{
     0%, 45% { opacity: 1; }
     46%, 100% { opacity: 0.12; }
   }
-
+ 
   @media (prefers-reduced-motion: reduce){
     .led{ animation: none; opacity: 1; }
   }
-
+ 
   h1.site-title{
     font-family: 'Press Start 2P', monospace;
     font-size: 20px;
     margin: 0;
     letter-spacing: -0.5px;
   }
-
+ 
   .tagline{
     margin: 10px 0 0;
     color: var(--ink-soft);
     font-size: 13px;
   }
-
+ 
   .prompt{
     font-family: 'Press Start 2P', monospace;
     font-size: 12px;
@@ -113,14 +189,14 @@
     gap: 8px;
   }
   .prompt::before{ content: ">"; color: var(--rec); }
-
+ 
   section{ margin-bottom: 44px; }
-
+ 
   .about p{
     font-size: 14.5px;
     max-width: 60ch;
   }
-
+ 
   .stats{
     display:flex;
     gap: 22px;
@@ -135,12 +211,12 @@
     color: var(--ink-soft);
     font-size: 10.5px;
   }
-
+ 
   .log{
     border: 2px solid var(--line);
     margin-bottom: 14px;
   }
-
+ 
   .log-row{
     display:flex;
     gap: 14px;
@@ -149,9 +225,9 @@
     color: var(--ink);
     align-items: center;
   }
-
+ 
   .log-row:hover .log-title{ text-decoration: underline; }
-
+ 
   .thumb-box{
     width: 96px;
     height: 96px;
@@ -168,33 +244,33 @@
     filter: grayscale(1) contrast(1.15);
     display: block;
   }
-
+ 
   .log-body{ flex: 1; min-width: 0; }
-
+ 
   .log-id{
     font-size: 10.5px;
     color: var(--ink-soft);
     letter-spacing: 0.06em;
   }
-
+ 
   .log-title{
     font-size: 14.5px;
     font-weight: 600;
     margin: 3px 0 5px;
   }
-
+ 
   .log-cta{
     font-size: 11.5px;
     color: var(--rec);
   }
   .log-cta::after{ content: " ->"; }
-
+ 
   .links{
     display:flex;
     gap: 14px;
     flex-wrap: wrap;
   }
-
+ 
   .link-box{
     border: 2px solid var(--line);
     padding: 14px 18px;
@@ -204,7 +280,7 @@
     min-width: 200px;
   }
   .link-box:hover{ background: var(--paper-dim); }
-
+ 
   .link-box .k{
     font-size: 10.5px;
     color: var(--ink-soft);
@@ -216,7 +292,7 @@
     font-size: 15px;
     font-weight: 600;
   }
-
+ 
   footer{
     border-top: 3px solid var(--line);
     padding-top: 18px;
@@ -227,7 +303,7 @@
     flex-wrap: wrap;
     gap: 8px;
   }
-
+ 
   .cursor{
     display:inline-block;
     width: 7px;
@@ -237,7 +313,7 @@
     animation: blink 1s steps(1) infinite;
     vertical-align: middle;
   }
-
+ 
   @media (max-width: 480px){
     h1.site-title{ font-size: 16px; }
     .log-row{ padding: 10px; gap: 10px; }
@@ -245,15 +321,26 @@
     .stats{ gap: 16px; }
   }
 </style>
+<script>
+  /* apply saved theme before paint to avoid a flash */
+  (function(){
+    try{
+      if (localStorage.getItem('theme') === 'dark'){
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    }catch(e){}
+  })();
+</script>
 </head>
 <body>
 <div class="wrap">
-
+ 
   <header>
     <span class="rec"><span class="led"></span>LIVE</span>
     <h1 class="site-title">mahaataab.io</h1>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle dark mode">DARK</button>
   </header>
-
+ 
   <section class="about">
     <p class="prompt">about</p>
     <p>
@@ -270,10 +357,10 @@
       <div>SHORTS + TUTORIALS<span>format</span></div>
     </div>
   </section>
-
+ 
   <section class="projects">
     <p class="prompt">projects</p>
-
+ 
     <div class="search" role="search">
       <span class="sym" aria-hidden="true">$</span>
       <input id="project-search" type="search" placeholder="search projects: esp32, oled, game..." aria-label="Search projects by keyword" autocomplete="off" spellcheck="false">
@@ -434,6 +521,28 @@
     filter();
     input.focus();
   });
+})();
+ 
+/* dark / neon mode toggle */
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+ 
+  function sync(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    btn.textContent = dark ? 'LIGHT' : 'DARK';
+    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  }
+ 
+  btn.addEventListener('click', function(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    if (dark){ root.removeAttribute('data-theme'); }
+    else { root.setAttribute('data-theme', 'dark'); }
+    try{ localStorage.setItem('theme', dark ? 'light' : 'dark'); }catch(e){}
+    sync();
+  });
+ 
+  sync();
 })();
 </script>
 </body>
